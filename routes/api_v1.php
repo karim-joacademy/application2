@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::apiResource('customers', CustomerController::class);
 Route::apiResource('invoices', InvoiceController::class);
-Route::post('invoices/bulk', ['uses' => 'InvoiceController@bulkStore']);
+Route::post('invoices/bulk', [InvoiceController::class, 'bulkStore']);
 
 Route::get('/user', function (Request $request) {
     return $request->user();

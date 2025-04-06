@@ -14,9 +14,6 @@ use Illuminate\Http\Request;
 
 class CustomerController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index(Request $request) : JsonResponse
     {
         try {
@@ -61,9 +58,6 @@ class CustomerController extends Controller
         }
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(StoreCustomerRequest $request) : JsonResponse
     {
         return response()->json([
@@ -73,9 +67,6 @@ class CustomerController extends Controller
         ]);
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(Customer $customer) : JsonResponse
     {
         $includeInvoices = request()->query('includeInvoices');
@@ -94,9 +85,6 @@ class CustomerController extends Controller
         ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(UpdateCustomerRequest $request, Customer $customer) : JsonResponse
     {
         $response = $customer->update($request->all());
@@ -116,9 +104,6 @@ class CustomerController extends Controller
         }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Customer $customer) : JsonResponse
     {
         return response()->json([
