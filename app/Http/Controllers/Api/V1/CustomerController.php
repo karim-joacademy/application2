@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Filters\V1\CustomersFilter;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\StoreCustomerRequest;
-use App\Http\Requests\UpdateCustomerRequest;
+use App\Http\Requests\V1\StoreCustomerRequest;
+use App\Http\Requests\V1\UpdateCustomerRequest;
 use App\Http\Resources\V1\Customer\CustomerCollection;
 use App\Http\Resources\V1\Customer\CustomerResource;
 use App\Models\Customer;
@@ -14,9 +14,6 @@ use Illuminate\Http\Request;
 
 class CustomerController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index(Request $request) : JsonResponse
     {
         try {
@@ -61,9 +58,6 @@ class CustomerController extends Controller
         }
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(StoreCustomerRequest $request) : JsonResponse
     {
         return response()->json([
@@ -73,9 +67,6 @@ class CustomerController extends Controller
         ]);
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(Customer $customer) : JsonResponse
     {
         $includeInvoices = request()->query('includeInvoices');
@@ -94,21 +85,25 @@ class CustomerController extends Controller
         ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(UpdateCustomerRequest $request, Customer $customer) : JsonResponse
     {
-        return response()->json([
-            'success' => true,
-            'status' => 201,
-            'data' => 'to be completed'
-        ]);
+        $response = $customer->update($request->all());
+
+        if($response) {
+            return response()->json([
+                'success' => true,
+                'status' => 200,
+                'data' => 'Successfully updated customer'
+            ]);
+        } else {
+            return response()->json([
+                'success' => false,
+                'status' => 500,
+                'data' => 'Failed to update customer'
+            ]);
+        }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Customer $customer) : JsonResponse
     {
         return response()->json([
